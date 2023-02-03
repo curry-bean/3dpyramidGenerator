@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>3D Pyramid Generator | CURRY</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<header>
+	<h1>
+		<a target="_top" href="https://codepen.io/hopee123">
+			<span class="title-0">3D</span>
+			<span class="title-1"><strong>P</strong>YRAMID<br><strong>G</strong>ENERATOR</span>
+		</a>
+	</h1>
+	<a class="josetxu-btn" href="https://alvin-wachira.netlify.app" target="_blank"></a></div>
+<button id="copy-css" onclick="copyCode(this.id)">{ CSS }</button>
+<button id="copy-html" onclick="copyCode(this.id)">&lt; HTML &gt;</button>
+</header>
+
+<input type="checkbox" id="play-pause" onclick="animatePyramid()" autocomplete="off">
+
+<div class="w-bricks pyramid" id="pyramid">
+	<span></span>
+	<span></span>
+	<span></span>
+	<span></span>
+	<div>
+		<div></div>
+	</div>
+</div>
+
+<div id="hidden-copy-html" class="hidden">&lt;!-- curry's 3D Pyramid Generator - CSS --&gt; 
+&lt;!-- https://codepen.io/hopee123 --&gt; 
+&lt;div class="<span id="w-pyramid">w-bricks</span> pyramid <span id="anim">running</span>" style="--width:<span id="cp-width">35</span>; --height:<span id="cp-height">30</span>; --hypo:<span id="cp-hypo">34.73</span>; --alpha:<span id="cp-alpha">59.74deg</span>;"&gt;
+	&lt;span&gt;&lt;/span&gt;
+	&lt;span&gt;&lt;/span&gt;
+	&lt;span&gt;&lt;/span&gt;
+	&lt;span&gt;&lt;/span&gt;
+&lt;/div&gt;
+</div>
+
+
+<div id="hidden-copy-css" class="hidden">/*** Josetxu's 3D Pyramid Generator - CSS ***/
+/*** https://codepen.io/hopee123 ***/
+body { 
+		margin: 0; 
+		padding: 0; 
+		overflow: hidden; 
+		display: flex; 
+		justify-content: center; 
+		align-items: center; 
+		width: 100vw; 
+		height: 100vh; 
+		perspective: 100vmin;
+}
+
+body * { 
+		box-sizing: border-box; 
+		transform-style: preserve-3d; 
+}
+
+@keyframes spin { 
+		0% { transform: rotateX(65deg) rotateZ(-160deg); } 
+	100% { transform: rotateX(65deg) rotateZ(200deg); } 
+}
+
+.pyramid { 
+	width: calc(var(--width) * 1vmin); 
+	height: calc(var(--width) * 1vmin); 
+	transform: rotateX(65deg) rotateZ(-160deg); 
+	margin: 0 0 calc(var(--height) * -0.5vmin) -5vmin; 
+	background: var(--wall-design); 
+	animation: spin 8s linear 0s infinite;	
+}
+
+.pyramid.running, .pyramid.running span { 	
+	animation-play-state: running; 
+}
+
+.pyramid.paused, .pyramid.paused span { 	
+	animation-play-state: paused; 
+}
+
+.pyramid:before {
+	content: "";
+	background: black;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	transform: translateZ(-10vmin);
+	box-shadow: 0 0 2vmin 2vmin #000000;
+	opacity: 0.1;
+}
+
+.pyramid span {
+	width: 100%;
+	height: calc(var(--hypo) * 1vmin);
+	--hypo2: calc(calc(var(--hypo) / 2) * 1vmin); 
+	position: absolute;
+	box-sizing: border-box;
+	clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+	background: var(--wall-design);
+	filter: brightness(var(--cx));
+	animation: shadows 8s ease 0s infinite;
+}
+
+.pyramid span:nth-child(1) {
+	transform-origin: center bottom;
+	transform: rotateX(calc(var(--alpha) * -1));
+	bottom: 0;
+	--cx: 0.65; /*firefox*/
+	animation-delay: -9s;
+}
+.pyramid span:nth-child(2) {
+	transform-origin: right center;
+	transform: rotateY(calc(var(--alpha) * 1)) rotateZ(-90deg) translate3d(var(--hypo2), calc(var(--hypo2) * -1), 0vmin);
+	--cx: 0.85; /*firefox*/
+	animation-delay: -7s;
+}
+.pyramid span:nth-child(3) {
+	transform-origin: center top;
+	transform: rotateX(calc(var(--alpha) * 1)) rotateZ(180deg) translate3d(0vmin, calc(var(--hypo) * -1vmin), 0vmin);
+	--cx: 1.1; /*firefox*/
+	animation-delay: -5s;
+}
+.pyramid span:nth-child(4) {
+	transform-origin: left center;
+	transform: rotateY(calc(var(--alpha) * -1)) rotateZ(90deg) translate3d(calc(var(--hypo2) * -1), calc(var(--hypo2) * -1), 0vmin);
+	--cx: 1.3; /*firefox*/
+	animation-delay: -3s;
+}
+
+/*** Wall Shadows ***/
+@property --cx {
+	syntax: '&lt;number&gt;';
+	inherits: false;
+	initial-value: 1;
+}
+
+@keyframes shadows {
+	  0% { --cx: 0.6; }
+	 25% { --cx: 1.1; }
+	 50% { --cx: 1.3; }
+	 75% { --cx: 0.8; }
+	100% { --cx: 0.6; }
+}
+
+
+/************ Wall Designs ************/
+/*** You can delete the unused ones ***/
+
+/*** Bricks ***/
+.w-bricks.pyramid {
+	--sz: 4px;
+	--brick1: #b16c53;
+	--brick2: #b56c52;
+	--lines: #873e1a;
+	--gp-ln: 50%/calc(var(--sz) * 10) calc(var(--sz) * 5);
+	--gp-cn: 50%/calc(var(--sz) * 5) calc(var(--sz) * 5);
+	--wall-design: 
+		repeating-conic-gradient(from 90deg at 95% 55%, var(--lines) 0% 25%, #fff0 0% 100%) var(--gp-cn), 
+		repeating-linear-gradient(180deg, var(--lines) 0 5%, #fff0 0 50%, var(--lines) 0 55%, var(--brick2) 0 100%) var(--gp-ln),
+		repeating-linear-gradient(90deg, var(--brick1) 0 47.5%, var(--lines) 0 50%, var(--brick1) 0 97.5%, var(--lines) 0 100%) var(--gp-ln);
+}
+
+/*** Granite ***/
+.w-granite.pyramid {
+	--wall-design: 
+		repeating-conic-gradient(#0004 0%, #fff0 .0003%, #fff0 .0005%, #fff0 .00095%), 
+		repeating-conic-gradient(#fff2 0%, #fff0 .0005%, #fff0 .00015%, #fff0 .0009%) #777;
+}
+
+/*** Crystal ***/
+.w-crystal.pyramid {
+	--wall-design: 
+		linear-gradient(45deg, #fff0 55%, #fff1 56% 64%, #fff0 65% 66%, #fff2 67% 69%, #fff0 71% 100%), 
+		linear-gradient(45deg, #2196f380, #ffffff78 56% 64%, #2196f380), 
+		#fff4;
+}
+
+/*** Grille ***/
+.w-grille.pyramid {
+	--sz: 4px;
+	--gp: 50%/ calc(var(--sz) * 2) calc(var(--sz) * 2);
+	--wall-design: 
+		linear-gradient(290deg, #fff0 25%, #545454 25% 35%, #fff0 35% 100%) var(--gp), 
+		linear-gradient(-290deg, #fff0 25%, #727272 25% 35%, #fff0 35% 100%) var(--gp), 
+		linear-gradient(200deg, #fff0 25%, #545454 25% 35%, #fff0 35% 100%) var(--gp), 
+		linear-gradient(-200deg, #fff0 25%, #727272 25% 35%, #fff0 35% 100%) var(--gp), 
+		#0001;
+}
+
+/*** Smooth ***/
+	.w-smooth.pyramid {
+	--wall-design: #1d73b7;
+}
+
+/*** Puzzle ***/
+.w-puzzle.pyramid {
+	--sz: 3px;
+	--c1: #8bc34a;
+	--c2: #3f8d42;
+	--pz: calc(var(--sz) * 0.65), #fff0 calc(calc(var(--sz) * 0.65) + 1px);
+	--gp: 50%/ calc(var(--sz) * 10) calc(var(--sz) * 10);
+	--wall-design: 
+		radial-gradient(circle at 55% 25%, var(--c2) var(--pz)) var(--gp), 
+		radial-gradient(circle at 75% 45%, var(--c2) var(--pz)) var(--gp), 
+		radial-gradient(circle at 5% 75%, var(--c2) var(--pz)) var(--gp), 
+		radial-gradient(circle at 25% 55%, var(--c2) var(--pz)) var(--gp), 
+		radial-gradient(circle at 55% 75%, var(--c1) var(--pz)) var(--gp), 
+		radial-gradient(circle at 75% 95%, var(--c1) var(--pz)) var(--gp), 
+		radial-gradient(circle at 5% 25%, var(--c1) var(--pz)) var(--gp), 
+		radial-gradient(circle at 25% 5%, var(--c1) var(--pz)) var(--gp), 
+		conic-gradient(from 0deg at 50% 50%, var(--c1) 0 25%, var(--c2) 0 50%, var(--c1) 0 75%, var(--c2) 0 100%) var(--gp);
+}
+
+/*** ZigZag ***/
+.w-zigzag.pyramid {
+	--sz: 2px;
+	--c1: #b78cff;
+	--c2: #9d6fe9;
+	--c3: #8f64d4;
+	--c4: #7e59bb;
+	--gp: 50%/ calc(var(--sz) * 6) calc(var(--sz) * 12);
+	--wall-design: 
+		conic-gradient(from -45deg at 50% 25%, var(--c2) 0 90deg, #fff0 0 100%) var(--gp), 
+		conic-gradient(from -45deg at 50% 50%, var(--c3) 0 90deg, #fff0 0 100%) var(--gp), 
+		conic-gradient(from -45deg at 50% 75%, var(--c1) 0 90deg, #fff0 0 100%) var(--gp), 
+		conic-gradient(from -45deg at 50% 100%, var(--c4) 0 90deg, #fff0 0 100%) var(--gp), 
+		var(--c2);
+}
+
+/*** Woven ***/
+.w-woven.pyramid {
+	--sz:  6px;
+	--c1: #b1cddb;
+	--c2: #96b5cb;
+	--c3: #7d9eaf;
+	--c4: #6f92a3;
+	--sh: #0006;
+	--sh2: #0002;
+	--gp: 50%/ calc(var(--sz) * 2) calc(var(--sz) * 2);
+	--wall-design: 
+		repeating-linear-gradient(45deg, #42312f30 calc(var(--sz) * 0.125), #fff0 calc(var(--sz) * 0.25) ), 
+		conic-gradient(from 85deg at 75% 1px, #fff0 0, var(--sh2) 0%, #fff0 5% 100%) var(--gp),  
+		conic-gradient(from -5deg at 0% calc(75% - 1px), #fff0 0, var(--sh) 0%, #fff0 4% 100%) var(--gp),  
+		conic-gradient(from 0deg at 75% calc(75% - 1px), #fff0 0 22%, var(--sh2) 25%, #fff0 25% 100%) var(--gp),   
+		conic-gradient(from 0deg at 75% calc(75% - 1px), var(--c4) 0 25%, #fff0 0 97%, var(--sh) 105%) var(--gp),
+		linear-gradient(180deg, #fff0 0%, var(--sh) 25%, #fff0 25% 50%, var(--sh) 50%, #fff0 75% 100%) var(--gp), 
+		linear-gradient(180deg, #fff0 25%, var(--c3) 25% 50%, #fff0 50% 100%) var(--gp), 
+		linear-gradient(90deg, #fff0 0%, var(--sh) 25%, #fff0 25% 50%, var(--sh) 50%, #fff0 75% 100%) var(--gp), 
+		linear-gradient(90deg, #fff0 25%, var(--c2) 25% 50%, #fff0 50% 100%) var(--gp), 
+		linear-gradient(180deg, var(--sh) 0%, #fff0 25% 50%, var(--sh) 75%, #fff0 75% 100%) var(--gp), 
+		linear-gradient(180deg, #fff0 75%, var(--c1) 75% 100%) var(--gp), 
+		#42312F25;		
+}
+
+/*** Basket ***/
+.w-basket.pyramid {
+	--sz:  11px;	
+	--c1: #ffa726;
+	--c2: #e59319;
+	--c3: #f1a12c;
+	--c4: #cf8b26;
+	--sh: #0006;
+	--sh2: #0002;
+	--gp: 50%/ calc(var(--sz) * 2) calc(var(--sz) * 2);
+	--wall-design:    
+		conic-gradient(from -10deg at 60% 0%, #fff0 0 25%, var(--sh2) 28%, #fff0 31% 100%) var(--gp), 
+		conic-gradient(from -5deg at 0% calc(60% - 1px), #fff0 0, var(--sh) 0%, #fff0 4% 100%) var(--gp),    
+		conic-gradient(from 0deg at 60% calc(60% - 1px), #fff0 0 22%, var(--sh2) 25%, #fff0 25% 100%) var(--gp),     
+		conic-gradient(from 0deg at 60% calc(60% - 1px), var(--c4) 0 25%, #fff0 0 97.5%, var(--sh) 102%) var(--gp),   
+		linear-gradient(180deg, #fff0 0%, var(--sh) 10%, #fff0 10% 50%, var(--sh) 50%, #fff0 60% 101%) var(--gp),   
+		linear-gradient(180deg, #fff0 10%, var(--c3) 10% 50%, #fff0 50% 100%) var(--gp),   
+		linear-gradient(90deg, #fff0 0%, var(--sh) 10%, #fff0 10% 50%, var(--sh) 50%, #fff0 60% 100%) var(--gp),   
+		linear-gradient(90deg, #fff0 10%, var(--c2) 10% 50%, #fff0 50% 100%) var(--gp),   
+		linear-gradient(180deg, #fff0 60%, var(--c1) 60% 100%) var(--gp),   
+		#6a1c0080;
+}
+
+/*** Blocks ***/
+.w-blocks.pyramid {
+	--sz: 3px;
+	--c1: #fdf3e3;
+	--c2: #dfd2bf;
+	--c3: #ccc3b2;
+	--c4: #a79a8a;
+	--s1: #cfc3ab;
+	--s2: #ccc0aa;
+	--s3: #ada38e;
+	--s4: #ccc0aa;
+	--d1: #9b9082;
+	--d2: #ddd9d4;
+	--gp: 50%/ calc(var(--sz) * 8) calc(var(--sz) * 6);
+	--bp: calc(var(--sz) * -4) calc(var(--sz) * -3);
+	--bg: 
+		conic-gradient(from 270deg at 0.65% 50%, var(--d1) 0% 25%, #fff0 0 100%) var(--gp), 
+		linear-gradient(0deg, var(--d1) 0 0.5%, #fff0 0 49.5%, var(--d1) 0 50.5%, #fff0 0 100%) var(--gp), 
+		conic-gradient(from 45deg at 81% 25%, var(--s3) 0%, var(--s4) 25%, #fff0 0 100%) var(--gp), 
+		conic-gradient(from -135deg at 19% 25%, var(--s1) 0%, var(--s2) 25%, #fff0 0 100%) var(--gp), 
+		linear-gradient(180deg, var(--c2), var(--c1) 24%, var(--c4) 26%, var(--c3) 50%, #fff0 0 100%) var(--gp);
+	--wall-design: var(--bg),var(--bg);
+}	
+.w-blocks.pyramid span {
+	background-position: var(--bp), var(--bp), var(--bp), var(--bp), var(--bp), 0 0, 0 0, 0 0, 0 0, 0 0;
+}
+.w-blocks.pyramid span:nth-child(4) {
+	filter: brightness(1.2);
+}
+
+/*** Triangle ***/
+.w-triangle.pyramid {
+	--sz: 2px;
+	--c1: #7a2222;
+	--c2: #6a1d1d;
+	--c3: #521616;
+	--c4: #340e0e;
+	--gp: 50%/ calc(var(--sz) * 8.5) calc(var(--sz) * 14.7);
+	--wall-design: 
+		conic-gradient(from 118deg at 50.5% 85%, var(--c2) 0 125deg, #fff0 0 100%) var(--gp), 
+		conic-gradient(from 30deg at 50% 50%, var(--c4) 0 30deg, var(--c2) 0 60deg, #fff0 0 120deg, var(--c3) 0 150deg, var(--c4) 0 180deg, #fff0 0 241deg, var(--c2) 0 270deg, var(--c3) 0 300deg, #fff0 0 100%) var(--gp), 
+		linear-gradient(180deg, var(--c1) 0 10%, #fff0 0 100%) var(--gp), 
+		var(--c1);
+}	
+
+/*** Honeycomb ***/
+.w-honeycomb.pyramid {
+	--sz: 1.1px;
+	--ln: 0.75px;
+	--c1: #ffb564;
+	--c2: #ff5903;
+	--c3: #ffa063;
+	--ts: 50%/ calc(var(--sz) * 11.8) calc(var(--sz) * 20);
+	--wall-design: 
+		radial-gradient(circle at 60% 110%, var(--c3) calc(var(--sz) * -3), #fff0 calc(var(--sz) * 5)) var(--ts), 
+		radial-gradient(circle at 60% 10%, var(--c3) calc(var(--sz) * -3), #fff0 calc(var(--sz) * 5)) var(--ts), 
+		radial-gradient(circle at 110% 60%, var(--c3) calc(var(--sz) * -3), #fff0 calc(var(--sz) * 5)) var(--ts), 
+		radial-gradient(circle at 10% 60%, var(--c3) calc(var(--sz) * -3), #fff0 calc(var(--sz) * 5)) var(--ts), 
+		conic-gradient(from 120deg at 50% calc(82.75% + calc(var(--ln) / 1.5)), var(--c2) 0 120deg, #fff0 0 100%) var(--ts), 
+		conic-gradient(from 120deg at 50% calc(82.75% + calc(var(--ln) / 1.5)), var(--c2) 0 120deg, #fff0 0 100%) var(--ts), 
+		conic-gradient(from 120deg at 50% calc(82.5% - calc(var(--ln) * 1.5)), var(--c1) 0 120deg, #fff0 0 100%) var(--ts), 
+		conic-gradient(from 120deg at 50% calc(82.5% - calc(var(--ln) * 1.5)), var(--c1) 0 120deg, #fff0 0 100%) var(--ts), 
+		conic-gradient(from 60deg at calc(50% + var(--ln)) 50.5%, var(--c2) 0 120deg, #fff0 0 100%) var(--ts), 
+		conic-gradient(from 60deg at calc(50% + var(--ln)) 50.5%, var(--c2) 0 120deg, #fff0 0 100%) var(--ts), 
+		conic-gradient(from 180deg at calc(50% - var(--ln)) 50.5%, var(--c2) 0 120deg, #fff0 0 100%) var(--ts), 
+		conic-gradient(from 180deg at calc(50% - var(--ln)) 50.5%, var(--c2) 0 120deg, #fff0 0 100%) var(--ts), 
+		conic-gradient(from 0deg at calc(100% - var(--ln)) 37.75%, var(--c1) 0 90deg, #fff0 0 100%) var(--ts), 
+		conic-gradient(from 0deg at calc(100% - var(--ln)) 37.75%, var(--c1) 0 90deg, #fff0 0 100%) var(--ts), 
+		conic-gradient(from -90deg at var(--ln) 37.75%, var(--c1) 0 90deg, #fff0 0 100%) var(--ts), 
+		conic-gradient(from -90deg at var(--ln) 37.75%, var(--c1) 0 90deg, #fff0 0 100%) var(--ts), 
+		conic-gradient(from -60deg at 50% calc(50% - calc(var(--ln) * 1.5)), var(--c2) 0 120deg, #fff0 0 100%) var(--ts), 
+		conic-gradient(from -60deg at 50% calc(50% - calc(var(--ln) * 1.5)), var(--c2) 0 120deg, #fff0 0 100%) var(--ts), 
+		var(--c1);
+}
+</div> 
+
+<button id="info-btn" class="info-btn" onclick="hideInfo()">&#8737;</button>
+
+<div class="info" id="info-panel">
+	<div class="base-width" id="base-width">35</div>
+	<div class="apex-height" id="apex-height">30</div>
+	<div class="hypotenuse" id="hypotenuse">34.73</div>
+	<div class="alpha-angle" id="alpha-angle">59.74</div>
+</div>
+
+<footer>
+	<div class="slider">
+		<input id="base" type="range" min="5" max="50" value="35" step="1" oninput="setBase(this.value)" onchange="setBase(this.value)" autocomplete="off">
+		<div class="slider-value">35</div>
+	</div>
+	<div class="slider">
+		<input id="apex" type="range" min="5" max="50" value="30" step="1" oninput="setApex(this.value)" onchange="setApex(this.value)" autocomplete="off">
+		<div class="slider-value">30</div>
+	</div>
+	<div class="wall-design">
+		<input type="radio" name="wall" id="w-bricks" oninput="setWall(this.id)" onchange="setWall(this.id)" autocomplete="off" checked><label for="w-bricks"></label>
+		<input type="radio" name="wall" id="w-granite" oninput="setWall(this.id)" onchange="setWall(this.id)" autocomplete="off"><label for="w-granite"></label>
+		<input type="radio" name="wall" id="w-crystal" oninput="setWall(this.id)" onchange="setWall(this.id)" autocomplete="off"><label for="w-crystal"></label>
+		<input type="radio" name="wall" id="w-grille" oninput="setWall(this.id)" onchange="setWall(this.id)" autocomplete="off"><label for="w-grille"></label>
+		<input type="radio" name="wall" id="w-smooth" oninput="setWall(this.id)" onchange="setWall(this.id)" autocomplete="off"><label for="w-smooth"></label>
+		<button id="w-more" onclick="moreWalls()"></button>
+		<div class="w-more down" id="w-mores">
+			<input type="radio" name="wall" id="w-honeycomb" oninput="setWall(this.id)" onchange="setWall(this.id)" autocomplete="off"><label for="w-honeycomb"></label>
+			<input type="radio" name="wall" id="w-triangle" oninput="setWall(this.id)" onchange="setWall(this.id)" autocomplete="off"><label for="w-triangle"></label>
+			<input type="radio" name="wall" id="w-blocks" oninput="setWall(this.id)" onchange="setWall(this.id)" autocomplete="off"><label for="w-blocks"></label>
+			<input type="radio" name="wall" id="w-basket" oninput="setWall(this.id)" onchange="setWall(this.id)" autocomplete="off"><label for="w-basket"></label>
+			<input type="radio" name="wall" id="w-woven" oninput="setWall(this.id)" onchange="setWall(this.id)" autocomplete="off"><label for="w-woven"></label>
+			<input type="radio" name="wall" id="w-zigzag" oninput="setWall(this.id)" onchange="setWall(this.id)" autocomplete="off"><label for="w-zigzag"></label>
+			<input type="radio" name="wall" id="w-puzzle" oninput="setWall(this.id)" onchange="setWall(this.id)" autocomplete="off"><label for="w-puzzle"></label>
+		</div>
+	</div>
+	<label for="play-pause"></label>
+	<span></span>
+</footer>
+
+<textarea id="hidden-copy-text" value=""></textarea>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
